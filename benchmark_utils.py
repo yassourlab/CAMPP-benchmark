@@ -16,7 +16,7 @@ TRAIN_COLS_TO_DROP = ['sample_id', 'subject_id', 'study_id']
 TEST_COLS_TO_DROP = ['sample_id']
 
 # Available tasks and tools
-ALL_TASKS = ['scz', 'ghs', 'crc', 'ibd', 'dmw', 'dmnw']
+ALL_TASKS = ['scz', 'ghs', 'crc', 'ibd', 'dm90', 'dm7']
 CPU_TOOLS = ['random_forest', 'xgboost', 'logistic_regression', 'svm', 'siamcat', 'debias_m']
 GPU_TOOLS = ['deep_micro', 'fully_connected', 'tabpfn']
 ALL_TOOLS = CPU_TOOLS + GPU_TOOLS

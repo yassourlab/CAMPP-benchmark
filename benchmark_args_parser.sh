@@ -3,7 +3,7 @@
 # Source this file in run_cpu_tools.sh, run_gpu_tools.sh, and run_all_benchmarks.sh
 
 # Define all available tasks and tools
-ALL_TASKS=("scz" "ghs" "crc" "ibd" "dmw" "dmnw")
+ALL_TASKS=("scz" "ghs" "crc" "ibd" "dm90" "dm7")
 CPU_TOOLS=("random_forest" "xgboost" "logistic_regression" "svm" "siamcat" "debias_m")
 GPU_TOOLS=("deep_micro" "fully_connected" "tabpfn")
 

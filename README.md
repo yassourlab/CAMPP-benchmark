@@ -28,8 +28,8 @@ for evaluation). Available tasks:
 - `ghs` - Gestational health status
 - `crc` - Colorectal cancer
 - `ibd` - Inflammatory bowel disease
-- `dmw` - Delivery mode (western populations)
-- `dmnw` - Delivery mode (non-western populations)
+- `dm90` - Delivery mode (test set capped at 90 days of age)
+- `dm7` - Delivery mode (test set capped at 7 days of age)
 
 ### 2. Set Up Conda Environments
 
@@ -62,9 +62,10 @@ filling your home directory quota. See https://docs.priorlabs.ai/how-to-access-g
 
 ### 4. Run the Baseline Tools
 
-All launcher scripts were written for a SLURM cluster but can also be run directly with `bash` for local testing
-(GPU tools still require a GPU). Each script loads modules and conda environments via Lmod/`mamba` calls that are
-specific to our cluster (HUJI) — adjust these for your own environment if needed.
+The launcher scripts in this step were written for a SLURM cluster but can also be run directly with `bash` for
+local testing (GPU tools still require a GPU). Each script loads modules and conda environments via Lmod/`mamba`
+calls that are specific to our cluster (HUJI) — adjust these for your own environment if needed.
+(`download_samples.sh`, in step 7, is plain bash and needs no scheduler.)
 
 Before running, edit the `BENCHMARK_DATASETS_DIR` variable near the top of `run_gpu_tools.sh`, `run_long_cpu_tools.sh`,
 and `run_medium_cpu_tools.sh` to point at the directory from step 1.
@@ -126,13 +127,49 @@ mlflow ui --backend-store-uri "$MLFLOW_TRACKING_URI"
 
 ### 7. Downloading Raw Sequencing Data
 
-`download_samples.sh` downloads the raw FASTQ files for samples listed in a task's CSV file via SLURM array jobs
-(using `fasterq-dump`/`prefetch`/`esearch` with fallbacks):
+`download_samples.sh` downloads the raw FASTQ files for every sample listed in a task's CSV file (train, test or
+`test_gt` — anything with a `sample_id` column). It is plain bash, so no job scheduler is needed:
 
 ```bash
-sbatch --array=1-N download_samples.sh /path/to/task_data.csv /output/dir
+bash download_samples.sh /path/to/dm90_train.csv /output/dir
+
+# Downloads are independent, so larger tasks are much faster in parallel:
+bash download_samples.sh --jobs 8 /path/to/ghs_train.csv /output/dir
 ```
-where `N` is the number of rows in the CSV file.
+
+Run `bash download_samples.sh --help` for all options (`--jobs`, `--limit`, `--start`, `--dm7-base-url`).
+
+**Requirements.** [sra-tools](https://github.com/ncbi/sra-tools) (`fasterq-dump`, `prefetch`) and
+[Entrez Direct](https://www.ncbi.nlm.nih.gov/books/NBK179288/) (`esearch`, `efetch`) must be on your `PATH`, along
+with `curl` or `wget`. They are not part of the conda environments from step 2; install them separately, e.g.
+
+```bash
+conda install -c bioconda -c conda-forge sra-tools entrez-direct
+```
+
+**How it works.** For each sample the script tries four download methods in order, falling through to the next one
+whenever the previous fails:
+
+1. `fasterq-dump`
+2. `prefetch` + `fasterq-dump`
+3. `esearch`/`efetch`, to look up the run accessions behind a sample accession
+4. ENA's HTTPS mirror (`https://www.ebi.ac.uk/ena/portal/api/filereport`)
+
+The fourth method matters: a number of runs — we hit this on several GHS training samples — cannot be read by
+sra-tools at all, failing methods 1–3 even against a locally prefetched `.sra` file. ENA serves the same runs as
+plain `fastq.gz` without going through SRA-tools, which sidesteps the problem. Every network call is retried with
+exponential backoff and jitter (`NET_ATTEMPTS`, `NET_BACKOFF`).
+
+Some samples map to several SRA runs; those `sample_id` values hold the accessions joined by semicolons, and the
+script downloads each one and concatenates them. Single-end vs. paired-end is detected automatically, and the output
+is gzipped and named after the `sample_id` (`<sample_id>.fastq.gz`, or `<sample_id>_1.fastq.gz` and
+`<sample_id>_2.fastq.gz`). Samples that are already present in the output directory are skipped, so an interrupted
+run can simply be restarted.
+
+**The `dm7` test samples are an exception.** They are anonymized samples that were never deposited in SRA, so none
+of the methods above can resolve them. The script recognizes them by their `dm7_test_*` ids and downloads them
+directly from <https://files.cs.huji.ac.il/morani/LAMPP/DM7_test/> as single-end, already-gzipped FASTQ files. Use
+`--dm7-base-url` (or the `DM7_BASE_URL` environment variable) if you need to point somewhere else.
 
 ### 8. Reproducibility
 
