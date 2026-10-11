@@ -2,7 +2,7 @@
 ---
 
 ## 🎯 About LAMPP
-**LAMPP** (**L**ive **A**ssessment of **M**etagenomics-based tools for host **P**henotype **P**rediction) is a **standardized
+**LAMPP** (**L**ive **A**ssessment of **M**etagenomics-based tools for human **P**henotype **P**rediction) is a **standardized
 and comprehensive benchmark** for evaluating methods that predict **host phenotypes from gut metagenomic data**.
 
 LAMPP provides an **open and fair platform** for comparing predictive methods, with the goal of advancing the use of
