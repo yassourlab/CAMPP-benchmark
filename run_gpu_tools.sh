@@ -81,7 +81,7 @@ fi
 
 # Constants
 # EDIT THIS: path to the directory containing benchmark dataset CSVs
-# (download from https://lampp.yassourlab.com/), with files named
+# (download from https://campp.yassourlab.com/), with files named
 # <task>_train.csv / <task>_test.csv / <task>_test_gt.csv
 BENCHMARK_DATASETS_DIR="/path/to/benchmark_datasets/"
 

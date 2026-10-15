@@ -1,11 +1,11 @@
-# LAMPP Baselines
+# CAMPP Baselines
 ---
 
-## 🎯 About LAMPP
-**LAMPP** (**L**ive **A**ssessment of **M**etagenomics-based tools for human **P**henotype **P**rediction) is a **standardized
+## 🎯 About CAMPP
+**CAMPP** (**C**ontinuous **A**ssessment of **M**etagenomics-based tools for human **P**henotype **P**rediction) is a **standardized
 and comprehensive benchmark** for evaluating methods that predict **host phenotypes from gut metagenomic data**.
 
-LAMPP provides an **open and fair platform** for comparing predictive methods, with the goal of advancing the use of
+CAMPP provides an **open and fair platform** for comparing predictive methods, with the goal of advancing the use of
 metagenomic data in health research and disease monitoring.
 
 It includes a diverse set of **binary classification tasks**, each consisting of:
@@ -16,12 +16,12 @@ It includes a diverse set of **binary classification tasks**, each consisting of
 
 ## 🚀 Getting Started
 
-This repository contains the code used to run the **baseline methods** described in the LAMPP manuscript, along with
+This repository contains the code used to run the **baseline methods** described in the CAMPP manuscript, along with
 the SLURM-based scripts we used to run them on our cluster.
 
 ### 1. Download the Benchmark Datasets
 
-Download the benchmark datasets from the [LAMPP website](https://lampp.yassourlab.com/). Each task provides
+Download the benchmark datasets from the [CAMPP website](https://campp.yassourlab.com/). Each task provides
 `<task>_train.csv`, `<task>_test.csv`, and `<task>_test_gt.csv` files (the latter holds the hidden test labels, used
 for evaluation). Available tasks:
 - `scz` - Schizophrenia prediction
@@ -36,10 +36,10 @@ for evaluation). Available tasks:
 We provide four Conda environment files for the different tools. Create the environments by running:
 
 ```bash
-conda env create -f lampp_general_python_env.yml   # benchmark_jupyter: sklearn methods, DEBIAS-M, MLflow logging
-conda env create -f lampp_fcnn_python_env.yml       # simple_pytorch: fully connected NN
-conda env create -f lampp_deepmicro_python_env.yml  # jupyter_deep_micro_cuda10: DeepMicro (TensorFlow 1.x, CUDA 10)
-conda env create -f lampp_tabpfn_python_env.yml     # tabpfn: TabPFN
+conda env create -f campp_general_python_env.yml   # benchmark_jupyter: sklearn methods, DEBIAS-M, MLflow logging
+conda env create -f campp_fcnn_python_env.yml       # simple_pytorch: fully connected NN
+conda env create -f campp_deepmicro_python_env.yml  # jupyter_deep_micro_cuda10: DeepMicro (TensorFlow 1.x, CUDA 10)
+conda env create -f campp_tabpfn_python_env.yml     # tabpfn: TabPFN
 ```
 
 You'll also need R (4.4.1+) with [SIAMCAT](https://bioconductor.org/packages/release/bioc/html/SIAMCAT.html),
@@ -168,7 +168,7 @@ run can simply be restarted.
 
 **The `dm7` test samples are an exception.** They are anonymized samples that were never deposited in SRA, so none
 of the methods above can resolve them. The script recognizes them by their `dm7_test_*` ids and downloads them
-directly from <https://files.cs.huji.ac.il/morani/LAMPP/DM7_test/> as single-end, already-gzipped FASTQ files. Use
+directly from <https://files.cs.huji.ac.il/morani/CAMPP/DM7_test/> as single-end, already-gzipped FASTQ files. Use
 `--dm7-base-url` (or the `DM7_BASE_URL` environment variable) if you need to point somewhere else.
 
 ### 8. Reproducibility
@@ -199,13 +199,13 @@ Run GPU tools via `run_gpu_tools.sh` (or `run_all_benchmarks.sh`), which request
 Make sure you've created all four conda environments (step 2) with the names expected by the scripts:
 `benchmark_jupyter`, `simple_pytorch`, `jupyter_deep_micro_cuda10`, `tabpfn`.
 
-## 📚 Want to learn more on LAMPP?
+## 📚 Want to learn more on CAMPP?
 
-- 🔗 **Official website**: [https://lampp.yassourlab.com/](https://lampp.yassourlab.com/)
+- 🔗 **Official website**: [https://campp.yassourlab.com/](https://campp.yassourlab.com/)
 - 📄 **Manuscript on bioRxiv**: [https://www.biorxiv.org/content/10.1101/2025.06.12.658885](https://www.biorxiv.org/content/10.1101/2025.06.12.658885)
 
 ---
 
 ## Acknowledgments
 
-The DeepMicro code used in this repository was adapted from the original implementation available on [DeepMicro's GitHub Repository](https://github.com/minoh0201/DeepMicro). We would like to thank them for making their code publicly available and therefore making it possible for us to modify and extend it to suit LAMPP's training & test scheme.
+The DeepMicro code used in this repository was adapted from the original implementation available on [DeepMicro's GitHub Repository](https://github.com/minoh0201/DeepMicro). We would like to thank them for making their code publicly available and therefore making it possible for us to modify and extend it to suit CAMPP's training & test scheme.

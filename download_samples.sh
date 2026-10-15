@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # ============================================================================
-# Download the raw FASTQ files for the samples listed in a LAMPP task CSV.
+# Download the raw FASTQ files for the samples listed in a CAMPP task CSV.
 # ============================================================================
 #
 # Usage:
 #   bash download_samples.sh [OPTIONS] <task_csv> <output_dir>
 #
 # Arguments:
-#   task_csv     A LAMPP task CSV (train, test or test_gt) with a 'sample_id' column
+#   task_csv     A CAMPP task CSV (train, test or test_gt) with a 'sample_id' column
 #   output_dir   Where the fastq files are written
 #
 # Options:
@@ -41,7 +41,7 @@ set -euo pipefail
 
 # Where the dm7 test reads are published. Override with --dm7-base-url or by exporting
 # DM7_BASE_URL.
-DM7_BASE_URL="${DM7_BASE_URL:-https://files.cs.huji.ac.il/morani/LAMPP/DM7_test}"
+DM7_BASE_URL="${DM7_BASE_URL:-https://files.cs.huji.ac.il/morani/CAMPP/DM7_test}"
 
 # NCBI's E-utilities rate-limit aggressively (HTTP 429) and time out under load, so every
 # network call goes through retry(). Export NCBI_API_KEY to raise the per-IP rate limit
