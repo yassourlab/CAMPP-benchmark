@@ -146,31 +146,6 @@ with `curl` or `wget`. They are not part of the conda environments from step 2; 
 ```bash
 conda install -c bioconda -c conda-forge sra-tools entrez-direct
 ```
-
-**How it works.** For each sample the script tries four download methods in order, falling through to the next one
-whenever the previous fails:
-
-1. `fasterq-dump`
-2. `prefetch` + `fasterq-dump`
-3. `esearch`/`efetch`, to look up the run accessions behind a sample accession
-4. ENA's HTTPS mirror (`https://www.ebi.ac.uk/ena/portal/api/filereport`)
-
-The fourth method matters: a number of runs — we hit this on several GHS training samples — cannot be read by
-sra-tools at all, failing methods 1–3 even against a locally prefetched `.sra` file. ENA serves the same runs as
-plain `fastq.gz` without going through SRA-tools, which sidesteps the problem. Every network call is retried with
-exponential backoff and jitter (`NET_ATTEMPTS`, `NET_BACKOFF`).
-
-Some samples map to several SRA runs; those `sample_id` values hold the accessions joined by semicolons, and the
-script downloads each one and concatenates them. Single-end vs. paired-end is detected automatically, and the output
-is gzipped and named after the `sample_id` (`<sample_id>.fastq.gz`, or `<sample_id>_1.fastq.gz` and
-`<sample_id>_2.fastq.gz`). Samples that are already present in the output directory are skipped, so an interrupted
-run can simply be restarted.
-
-**The `dm7` test samples are an exception.** They are anonymized samples that were never deposited in SRA, so none
-of the methods above can resolve them. The script recognizes them by their `dm7_test_*` ids and downloads them
-directly from <https://files.cs.huji.ac.il/morani/CAMPP/DM7_test/> as single-end, already-gzipped FASTQ files. Use
-`--dm7-base-url` (or the `DM7_BASE_URL` environment variable) if you need to point somewhere else.
-
 ### 8. Reproducibility
 
 All models use a fixed random seed (`SEED = 17`, see `benchmark_utils.py`) for cross-validation splits and model
@@ -181,13 +156,6 @@ initialization.
 The DM7 test data is currently unpublished and is available at <https://files.cs.huji.ac.il/morani/CAMPP/DM7_test>.
 Once the data is published, it will be deposited in a standard sequencing repository, and the accession references
 will be added to this README.
-
-## Monitoring
-
-```bash
-squeue -u $USER
-tail -f logs/<tool>/<task>/*.out
-```
 
 ## Troubleshooting
 
