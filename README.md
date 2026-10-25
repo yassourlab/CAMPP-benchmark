@@ -151,7 +151,7 @@ conda install -c bioconda -c conda-forge sra-tools entrez-direct
 All models use a fixed random seed (`SEED = 17`, see `benchmark_utils.py`) for cross-validation splits and model
 initialization.
 
-## Data availability
+## DM7 test data availability
 
 The DM7 test data is currently unpublished and is available at <https://files.cs.huji.ac.il/morani/CAMPP/DM7_test>.
 Once the data is published, it will be deposited in a standard sequencing repository, and the accession references
