@@ -11,6 +11,8 @@ library(tidyverse)
 library(dplyr)
 library(SIAMCAT)
 
+set.seed(17)
+
 options(error = traceback)
 ############# Helper function for training and testing ############
 
