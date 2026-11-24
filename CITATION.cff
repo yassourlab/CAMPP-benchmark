@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software or data, please cite it using the metadata from this file."
+type: software  # use "dataset" if the repo is mainly data
+title: 'The code used for running tools for the manuscript "CAMPP: A benchmark for continuous evaluation of human phenotype prediction from shotgun metagenomic data"'
+authors:
+  - family-names: Barak
+    given-names: Netta
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+    affiliation: "School of Computer Science and Engineering, The Hebrew University of Jerusalem, Jerusalem, Israel"
+  - family-names: Bhattacharya
+    given-names: Haimasree
+    affiliation: "Center for Interdisciplinary Data Science Research (CIDR), The Hebrew University of Jerusalem, Jerusalem, Israel"
+  - family-names: Asnicar
+    given-names: Francesco
+    affiliation: "Department of Cellular, Computational and Integrative Biology, University of Trento, Trento, Italy"
+  - family-names: Sung
+    given-names: Jaeyun
+    affiliation: "Division of Computational Biology, Department of Quantitative Health Sciences, Mayo Clinic, Rochester, MN, USA"
+  - family-names: Segata
+    given-names: Nicola
+    affiliation: "Department of Cellular, Computational and Integrative Biology, University of Trento, Trento, Italy"
+  - family-names: Yassour
+    given-names: Moran
+    affiliation: "School of Computer Science and Engineering, The Hebrew University of Jerusalem, Jerusalem, Israel; Department of Microbiology and Molecular Genetics, IMRIC, Faculty of Medicine, The Hebrew University of Jerusalem, Jerusalem, Israel; Computational Medicine Center, Faculty of Medicine, The Hebrew University of Jerusalem, Jerusalem, Israel"
+version: "1.0.0"
+date-released: "2026-11-24"
+doi: "<10.5281/zenodo.XXXXXXX>"
+repository-code: "https://github.com/yassourlab/CAMPP-benchmark/"
+license: MIT
