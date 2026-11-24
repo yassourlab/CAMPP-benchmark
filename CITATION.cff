@@ -24,6 +24,6 @@ authors:
     affiliation: "School of Computer Science and Engineering, The Hebrew University of Jerusalem, Jerusalem, Israel; Department of Microbiology and Molecular Genetics, IMRIC, Faculty of Medicine, The Hebrew University of Jerusalem, Jerusalem, Israel; Computational Medicine Center, Faculty of Medicine, The Hebrew University of Jerusalem, Jerusalem, Israel"
 version: "1.0.0"
 date-released: "2026-11-24"
-doi: "<10.5281/zenodo.XXXXXXX>"
+doi: "10.5281/zenodo.24504356"
 repository-code: "https://github.com/yassourlab/CAMPP-benchmark/"
-license: MIT
+license: "MIT"
